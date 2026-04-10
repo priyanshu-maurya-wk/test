@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Noir Vessels — Ultra-premium bottle house. Exquisite craftsmanship, rare materials, and timeless design." />
+  <title>Noir Vessels — Ultra-Premium Bottle House</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Lenis -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+</head>
+<body>
+
+  <!-- Loader -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-logo">NOIR VESSELS</div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+
+  <!-- Scroll Progress -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Custom Cursor -->
+  <div id="cursor-dot" aria-hidden="true"></div>
+  <div id="cursor-follower" aria-hidden="true"></div>
+  <div id="cursor-label" aria-hidden="true"></div>
+
+  <!-- Page Transition Overlay -->
+  <div id="page-transition" aria-hidden="true">
+    <div class="pt-panel"></div>
+    <div class="pt-logo">NOIR VESSELS</div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <nav class="mobile-menu" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="collections.html">Collections</a>
+    <a href="craftsmanship.html">Craftsmanship</a>
+    <a href="journal.html">Journal</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <!-- Navigation -->
+  <header id="nav" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Noir Vessels — Home">NOIR VESSELS</a>
+      <ul class="nav-links" aria-label="Primary navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="craftsmanship.html">Craftsmanship</a></li>
+        <li><a href="journal.html">Journal</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-cta-item"><a href="collections.html" class="nav-cta">Shop Now</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ======================================================
+         HERO SECTION
+    ====================================================== -->
+    <section class="hero" aria-label="Hero">
+      <div class="hero-bg" data-parallax="0.3" aria-hidden="true"></div>
+
+      <!-- Animated background rings -->
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;" aria-hidden="true">
+        <div style="width:min(80vw,700px);height:min(80vw,700px);border-radius:50%;border:1px solid rgba(201,168,76,0.06);position:absolute;animation:rotateCircle 30s linear infinite;"></div>
+        <div style="width:min(60vw,530px);height:min(60vw,530px);border-radius:50%;border:1px solid rgba(201,168,76,0.04);position:absolute;animation:rotateCircle 20s linear infinite reverse;"></div>
+        <div style="width:min(40vw,360px);height:min(40vw,360px);border-radius:50%;border:1px solid rgba(201,168,76,0.08);position:absolute;animation:rotateCircle 12s linear infinite;"></div>
+      </div>
+
+      <div class="hero-content container">
+        <span class="hero-eyebrow" data-reveal>Est. 2008 &nbsp;·&nbsp; Maison du Verre Noir &nbsp;·&nbsp; Paris</span>
+
+        <h1 class="hero-title">
+          <span data-split data-delay="0.2">Crafted</span><br>
+          <em><span data-split data-delay="0.5">in Darkness</span></em>
+        </h1>
+
+        <p class="hero-sub" data-reveal data-reveal-delay="1.0">
+          Ultra-premium vessels born from obsession. Each piece is a meditation in form,
+          a testament to the art of exceptional glasswork.
+        </p>
+
+        <div class="hero-actions" data-reveal data-reveal-delay="1.2">
+          <a href="collections.html" class="btn btn-primary">
+            Explore Collection
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="craftsmanship.html" class="btn btn-outline">Our Craft</a>
+        </div>
+      </div>
+
+      <!-- Center bottle visual -->
+      <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:clamp(60px,8vw,120px);height:clamp(160px,25vw,380px);pointer-events:none;z-index:1;" aria-hidden="true">
+        <svg viewBox="0 0 80 220" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:0.35;">
+          <rect x="30" y="0" width="20" height="30" rx="4" fill="rgba(201,168,76,0.3)" stroke="rgba(201,168,76,0.6)" stroke-width="0.5"/>
+          <path d="M25 30 Q20 50 18 70 L18 190 Q18 210 40 210 Q62 210 62 190 L62 70 Q60 50 55 30 Z" fill="rgba(201,168,76,0.07)" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+          <path d="M22 90 Q40 95 58 90" stroke="rgba(201,168,76,0.2)" stroke-width="0.5" fill="none"/>
+          <path d="M40 40 L40 200" stroke="rgba(255,255,255,0.04)" stroke-width="20"/>
+        </svg>
+      </div>
+
+      <div class="hero-scroll-hint" aria-hidden="true">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         MARQUEE
+    ====================================================== -->
+    <div class="marquee-section" aria-hidden="true">
+      <div class="marquee-track">
+        <span class="marquee-item"><span class="marquee-dot"></span> Crystal Reserve</span>
+        <span class="marquee-item"><span class="marquee-dot"></span> Limited Editions</span>
+        <span class="marquee-item"><span class="marquee-dot"></span> The Obsidian Series</span>
+        <span class="marquee-item"><span class="marquee-dot"></span> Collector's Vault</span>
+        <span class="marquee-item"><span class="marquee-dot"></span> Travel Flasks</span>
+        <span class="marquee-item"><span class="marquee-dot"></span> Bespoke Vessels</span>
+        <span class="marquee-item"><span class="marquee-dot"></span> Artisan Decanters</span>
+        <span class="marquee-item"><span class="marquee-dot"></span> Noir Heritage</span>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         PINNED SCROLL SECTION
+    ====================================================== -->
+    <section class="pinned-section" aria-label="Featured collections showcase" style="height:600vh;">
+      <div class="pinned-inner">
+        <div class="pin-bg-layer" aria-hidden="true">
+          <div class="pin-bg-circle"></div>
+          <div class="pin-bg-circle"></div>
+        </div>
+
+        <!-- Slides -->
+        <div class="pin-slide" data-slide="0" aria-hidden="true">
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+            <div class="pin-slide-label">Series I</div>
+            <svg viewBox="0 0 100 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:clamp(70px,10vw,150px);height:auto;margin:0 auto;display:block;">
+              <rect x="36" y="0" width="28" height="36" rx="5" fill="rgba(201,168,76,0.25)" stroke="rgba(201,168,76,0.7)" stroke-width="0.8"/>
+              <path d="M30 36 Q24 60 22 90 L22 240 Q22 265 50 265 Q78 265 78 240 L78 90 Q76 60 70 36Z" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.5)" stroke-width="1"/>
+              <path d="M26 110 Q50 118 74 110" stroke="rgba(201,168,76,0.3)" stroke-width="0.8" fill="none"/>
+              <path d="M50 50 L50 260" stroke="rgba(255,255,255,0.05)" stroke-width="28"/>
+            </svg>
+          </div>
+          <div class="pin-slide-text">
+            <span class="pin-slide-label">The Obsidian Collection</span>
+            <h2 class="pin-slide-title">Born from volcanic glass, aged in darkness</h2>
+          </div>
+        </div>
+
+        <div class="pin-slide" data-slide="1" aria-hidden="true">
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+            <div class="pin-slide-label">Series II</div>
+            <svg viewBox="0 0 100 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:clamp(70px,10vw,150px);height:auto;margin:0 auto;display:block;transform:rotate(5deg);">
+              <rect x="33" y="0" width="34" height="42" rx="8" fill="rgba(180,220,255,0.12)" stroke="rgba(180,220,255,0.5)" stroke-width="0.8"/>
+              <path d="M28 42 Q20 68 18 100 L18 240 Q18 268 50 268 Q82 268 82 240 L82 100 Q80 68 72 42Z" fill="rgba(180,220,255,0.06)" stroke="rgba(180,220,255,0.4)" stroke-width="1"/>
+              <ellipse cx="50" cy="165" rx="30" ry="8" fill="rgba(180,220,255,0.06)" stroke="rgba(180,220,255,0.2)" stroke-width="0.5"/>
+            </svg>
+          </div>
+          <div class="pin-slide-text">
+            <span class="pin-slide-label">Crystal Reserve</span>
+            <h2 class="pin-slide-title">Hand-blown Bohemian crystal, each unique as a fingerprint</h2>
+          </div>
+        </div>
+
+        <div class="pin-slide" data-slide="2" aria-hidden="true">
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+            <div class="pin-slide-label">Series III</div>
+            <svg viewBox="0 0 100 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:clamp(70px,10vw,150px);height:auto;margin:0 auto;display:block;">
+              <rect x="40" y="0" width="20" height="28" rx="3" fill="rgba(255,215,0,0.2)" stroke="rgba(255,215,0,0.6)" stroke-width="0.8"/>
+              <path d="M35 28 Q28 50 26 80 L26 230 Q26 258 50 258 Q74 258 74 230 L74 80 Q72 50 65 28Z" fill="rgba(255,215,0,0.05)" stroke="rgba(255,215,0,0.45)" stroke-width="1"/>
+              <path d="M30 80 Q50 90 70 80" stroke="rgba(255,215,0,0.3)" stroke-width="0.8" fill="none"/>
+              <path d="M30 130 Q50 140 70 130" stroke="rgba(255,215,0,0.2)" stroke-width="0.6" fill="none"/>
+            </svg>
+          </div>
+          <div class="pin-slide-text">
+            <span class="pin-slide-label">Gold Meridian</span>
+            <h2 class="pin-slide-title">24-karat gold leaf accents on hand-shaped amber glass</h2>
+          </div>
+        </div>
+
+        <div class="pin-slide" data-slide="3" aria-hidden="true">
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+            <div class="pin-slide-label">Series IV</div>
+            <svg viewBox="0 0 100 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:clamp(70px,10vw,150px);height:auto;margin:0 auto;display:block;transform:scaleX(0.8);">
+              <rect x="34" y="0" width="32" height="38" rx="6" fill="rgba(200,160,220,0.15)" stroke="rgba(200,160,220,0.5)" stroke-width="0.8"/>
+              <path d="M28 38 Q22 62 20 92 L20 240 Q20 265 50 265 Q80 265 80 240 L80 92 Q78 62 72 38Z" fill="rgba(200,160,220,0.07)" stroke="rgba(200,160,220,0.4)" stroke-width="1"/>
+              <circle cx="50" cy="170" r="22" fill="none" stroke="rgba(200,160,220,0.15)" stroke-width="0.8"/>
+            </svg>
+          </div>
+          <div class="pin-slide-text">
+            <span class="pin-slide-label">Amethyst Heritage</span>
+            <h2 class="pin-slide-title">A collector's dream — violet glass with sterling silver caging</h2>
+          </div>
+        </div>
+
+        <div class="pin-slide" data-slide="4" aria-hidden="true">
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+            <div class="pin-slide-label">Series V</div>
+            <svg viewBox="0 0 100 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:clamp(70px,10vw,150px);height:auto;margin:0 auto;display:block;">
+              <rect x="38" y="0" width="24" height="32" rx="4" fill="rgba(120,200,160,0.15)" stroke="rgba(120,200,160,0.5)" stroke-width="0.8"/>
+              <path d="M32 32 Q25 55 23 85 L23 235 Q23 262 50 262 Q77 262 77 235 L77 85 Q75 55 68 32Z" fill="rgba(120,200,160,0.07)" stroke="rgba(120,200,160,0.4)" stroke-width="1"/>
+              <path d="M26 145 Q50 155 74 145 Q74 165 50 175 Q26 165 26 145Z" fill="rgba(120,200,160,0.06)" stroke="rgba(120,200,160,0.2)" stroke-width="0.5"/>
+            </svg>
+          </div>
+          <div class="pin-slide-text">
+            <span class="pin-slide-label">Emerald Vault</span>
+            <h2 class="pin-slide-title">Forest-deep malachite glass — only 40 made per season</h2>
+          </div>
+        </div>
+
+        <!-- Progress dots -->
+        <div class="pin-progress" aria-label="Slide navigation" role="tablist">
+          <button class="pin-progress-dot active" role="tab" aria-label="Slide 1" aria-selected="true"></button>
+          <button class="pin-progress-dot" role="tab" aria-label="Slide 2" aria-selected="false"></button>
+          <button class="pin-progress-dot" role="tab" aria-label="Slide 3" aria-selected="false"></button>
+          <button class="pin-progress-dot" role="tab" aria-label="Slide 4" aria-selected="false"></button>
+          <button class="pin-progress-dot" role="tab" aria-label="Slide 5" aria-selected="false"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         STATS
+    ====================================================== -->
+    <section class="stats-section" aria-label="Brand statistics">
+      <div class="container">
+        <div class="stats-grid" data-stagger-parent>
+          <div class="stat-item" data-stagger-child>
+            <span class="stat-number" data-count="17" data-count-suffix="+">17+</span>
+            <span class="stat-label">Years of Craft</span>
+          </div>
+          <div class="stat-item" data-stagger-child>
+            <span class="stat-number" data-count="840" data-count-suffix="">840</span>
+            <span class="stat-label">Unique Designs</span>
+          </div>
+          <div class="stat-item" data-stagger-child>
+            <span class="stat-number" data-count="38" data-count-suffix="">38</span>
+            <span class="stat-label">Countries Served</span>
+          </div>
+          <div class="stat-item" data-stagger-child>
+            <span class="stat-number" data-count="12" data-count-suffix="K+">12K+</span>
+            <span class="stat-label">Collectors Worldwide</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         FEATURED COLLECTION (Cards)
+    ====================================================== -->
+    <section class="section" aria-label="Featured collection">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow" data-reveal>Curated Selection</span>
+          <h2 data-split>Featured Vessels</h2>
+          <p class="lead text-center" style="margin:1rem auto 0;" data-reveal>
+            A discerning edit of our most celebrated pieces, available to acquire now.
+          </p>
+        </div>
+
+        <div class="card-grid" data-stagger-parent>
+
+          <article class="card" data-stagger-child>
+            <a href="product.html" style="text-decoration:none;color:inherit;cursor:none;">
+              <div class="card-img">
+                <div class="card-img-placeholder">
+                  <svg class="bottle-icon" width="60" height="160" viewBox="0 0 60 160" fill="none" aria-hidden="true">
+                    <rect x="22" y="0" width="16" height="22" rx="3" fill="rgba(201,168,76,0.25)" stroke="rgba(201,168,76,0.5)" stroke-width="0.8"/>
+                    <path d="M18 22 Q12 38 11 55 L11 140 Q11 155 30 155 Q49 155 49 140 L49 55 Q48 38 42 22Z" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-label">Limited Edition</span>
+                <h3 class="card-title">Obsidian Noir I</h3>
+                <p class="card-desc">Volcanic basalt glass with hand-etched midnight engravings. Edition of 200.</p>
+                <span class="card-price">€ 1,850</span>
+              </div>
+            </a>
+          </article>
+
+          <article class="card" data-stagger-child>
+            <a href="product.html" style="text-decoration:none;color:inherit;cursor:none;">
+              <div class="card-img">
+                <div class="card-img-placeholder">
+                  <svg class="bottle-icon" width="60" height="160" viewBox="0 0 60 160" fill="none" aria-hidden="true">
+                    <rect x="20" y="0" width="20" height="26" rx="5" fill="rgba(180,220,255,0.15)" stroke="rgba(180,220,255,0.5)" stroke-width="0.8"/>
+                    <path d="M14 26 Q8 45 7 65 L7 138 Q7 156 30 156 Q53 156 53 138 L53 65 Q52 45 46 26Z" fill="rgba(180,220,255,0.07)" stroke="rgba(180,220,255,0.4)" stroke-width="1"/>
+                    <ellipse cx="30" cy="100" rx="20" ry="5" fill="none" stroke="rgba(180,220,255,0.15)" stroke-width="0.6"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-label">Crystal Reserve</span>
+                <h3 class="card-title">Arctic Crystal IV</h3>
+                <p class="card-desc">Bohemian crystal with cryogenic treatment, encasing perpetual arctic clarity.</p>
+                <span class="card-price">€ 3,200</span>
+              </div>
+            </a>
+          </article>
+
+          <article class="card" data-stagger-child>
+            <a href="product.html" style="text-decoration:none;color:inherit;cursor:none;">
+              <div class="card-img">
+                <div class="card-img-placeholder">
+                  <svg class="bottle-icon" width="50" height="160" viewBox="0 0 50 160" fill="none" aria-hidden="true">
+                    <rect x="18" y="0" width="14" height="20" rx="2" fill="rgba(255,215,0,0.2)" stroke="rgba(255,215,0,0.6)" stroke-width="0.8"/>
+                    <path d="M15 20 Q10 35 9 50 L9 138 Q9 154 25 154 Q41 154 41 138 L41 50 Q40 35 35 20Z" fill="rgba(255,215,0,0.06)" stroke="rgba(255,215,0,0.4)" stroke-width="1"/>
+                    <path d="M11 55 Q25 62 39 55" stroke="rgba(255,215,0,0.3)" stroke-width="0.6" fill="none"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-label">Gold Meridian</span>
+                <h3 class="card-title">Soleil Doré Flask</h3>
+                <p class="card-desc">Slender travel flask wrapped in 22-karat gold leaf with amber base glass.</p>
+                <span class="card-price">€ 2,480</span>
+              </div>
+            </a>
+          </article>
+
+          <article class="card" data-stagger-child>
+            <a href="product.html" style="text-decoration:none;color:inherit;cursor:none;">
+              <div class="card-img">
+                <div class="card-img-placeholder">
+                  <svg class="bottle-icon" width="70" height="160" viewBox="0 0 70 160" fill="none" aria-hidden="true">
+                    <rect x="24" y="0" width="22" height="28" rx="4" fill="rgba(200,160,220,0.15)" stroke="rgba(200,160,220,0.5)" stroke-width="0.8"/>
+                    <path d="M18 28 Q10 50 9 75 L9 135 Q9 157 35 157 Q61 157 61 135 L61 75 Q60 50 52 28Z" fill="rgba(200,160,220,0.08)" stroke="rgba(200,160,220,0.4)" stroke-width="1"/>
+                    <circle cx="35" cy="110" r="18" fill="none" stroke="rgba(200,160,220,0.12)" stroke-width="0.8"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-label">Collector Set</span>
+                <h3 class="card-title">Amethyst Duo</h3>
+                <p class="card-desc">Matching pair of violet-cast decanters in a velvet-lined ebony presentation box.</p>
+                <span class="card-price">€ 5,900</span>
+              </div>
+            </a>
+          </article>
+
+          <article class="card" data-stagger-child>
+            <a href="product.html" style="text-decoration:none;color:inherit;cursor:none;">
+              <div class="card-img">
+                <div class="card-img-placeholder">
+                  <svg class="bottle-icon" width="55" height="160" viewBox="0 0 55 160" fill="none" aria-hidden="true">
+                    <rect x="19" y="0" width="17" height="24" rx="3" fill="rgba(120,200,160,0.15)" stroke="rgba(120,200,160,0.5)" stroke-width="0.8"/>
+                    <path d="M15 24 Q9 42 8 62 L8 136 Q8 154 27.5 154 Q47 154 47 136 L47 62 Q46 42 40 24Z" fill="rgba(120,200,160,0.07)" stroke="rgba(120,200,160,0.4)" stroke-width="1"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-label">Emerald Vault</span>
+                <h3 class="card-title">Forêt Profonde</h3>
+                <p class="card-desc">Deep malachite glass in a sculpted silhouette. Only 40 crafted per season.</p>
+                <span class="card-price">€ 4,100</span>
+              </div>
+            </a>
+          </article>
+
+          <article class="card" data-stagger-child>
+            <a href="product.html" style="text-decoration:none;color:inherit;cursor:none;">
+              <div class="card-img">
+                <div class="card-img-placeholder">
+                  <svg class="bottle-icon" width="65" height="160" viewBox="0 0 65 160" fill="none" aria-hidden="true">
+                    <rect x="23" y="0" width="19" height="25" rx="3" fill="rgba(255,180,100,0.15)" stroke="rgba(255,180,100,0.5)" stroke-width="0.8"/>
+                    <path d="M17 25 Q12 44 10 66 L10 136 Q10 156 32.5 156 Q55 156 55 136 L55 66 Q53 44 48 25Z" fill="rgba(255,180,100,0.07)" stroke="rgba(255,180,100,0.4)" stroke-width="1"/>
+                    <path d="M13 90 Q32.5 100 52 90 Q52 110 32.5 118 Q13 110 13 90Z" fill="rgba(255,180,100,0.04)" stroke="rgba(255,180,100,0.15)" stroke-width="0.5"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-label">Amber Series</span>
+                <h3 class="card-title">Lumière Cognac</h3>
+                <p class="card-desc">Warm cognac glass with a hand-carved stopper in aged rosewood.</p>
+                <span class="card-price">€ 2,950</span>
+              </div>
+            </a>
+          </article>
+
+        </div>
+
+        <div class="text-center mt-lg">
+          <a href="collections.html" class="btn btn-outline">View All Collections</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         INTERACTIVE LIST SECTION
+    ====================================================== -->
+    <section class="interactive-section" aria-label="Our Signature Series">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow" data-reveal>Signature Series</span>
+          <h2 data-split>The Noir Universe</h2>
+        </div>
+
+        <div class="interactive-grid">
+          <ul class="interactive-list" role="list" aria-label="Signature bottle series">
+
+            <li class="list-item" data-image="obsidian" role="listitem">
+              <div class="list-item-header" role="button" tabindex="0" aria-expanded="false">
+                <h4>The Obsidian Series</h4>
+                <span class="list-item-icon" aria-hidden="true">
+                  <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="list-item-body" role="region" aria-label="Obsidian Series details">
+                <p>Forged from volcanic basalt glass sourced from Sicily, each Obsidian vessel carries the raw energy of elemental origins. Hand-finished with platinum detailing over 60 hours of meticulous work.</p>
+              </div>
+            </li>
+
+            <li class="list-item" data-image="crystal" role="listitem">
+              <div class="list-item-header" role="button" tabindex="0" aria-expanded="false">
+                <h4>Crystal Reserve</h4>
+                <span class="list-item-icon" aria-hidden="true">
+                  <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="list-item-body" role="region" aria-label="Crystal Reserve details">
+                <p>Each Crystal Reserve piece is mouth-blown by master glassmakers in Bohemia using a 400-year-old technique. No two are identical — the natural variations in crystal density create ever-shifting light refractions.</p>
+              </div>
+            </li>
+
+            <li class="list-item" data-image="gold" role="listitem">
+              <div class="list-item-header" role="button" tabindex="0" aria-expanded="false">
+                <h4>Gold Meridian</h4>
+                <span class="list-item-icon" aria-hidden="true">
+                  <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="list-item-body" role="region" aria-label="Gold Meridian details">
+                <p>24-karat gold leaf is hand-applied using centuries-old gilding techniques by our Florentine artisans. The amber glass base is shaped over two days in our Murano atelier before the gilding process begins.</p>
+              </div>
+            </li>
+
+            <li class="list-item" data-image="amethyst" role="listitem">
+              <div class="list-item-header" role="button" tabindex="0" aria-expanded="false">
+                <h4>Amethyst Heritage</h4>
+                <span class="list-item-icon" aria-hidden="true">
+                  <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="list-item-body" role="region" aria-label="Amethyst Heritage details">
+                <p>Inspired by Art Nouveau jewellery, the Amethyst Heritage series combines deep violet blown glass with a sterling silver cage handcrafted by Parisian silversmiths in our 16th arrondissement atelier.</p>
+              </div>
+            </li>
+
+            <li class="list-item" data-image="travel" role="listitem">
+              <div class="list-item-header" role="button" tabindex="0" aria-expanded="false">
+                <h4>Travel Flask Collection</h4>
+                <span class="list-item-icon" aria-hidden="true">
+                  <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="list-item-body" role="region" aria-label="Travel Flask Collection details">
+                <p>Engineered for the discerning traveller. A slim silhouette in hand-stitched Italian leather, concealing a double-walled glass interior that maintains temperature for 18 hours. TSA-approved without compromise.</p>
+              </div>
+            </li>
+
+          </ul>
+
+          <!-- Image panel -->
+          <div class="interactive-image-panel" aria-live="polite" aria-label="Series preview">
+            <div class="img-placeholder" data-list-image="obsidian">
+              <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:60%;height:auto;">
+                <rect x="76" y="0" width="48" height="55" rx="8" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.6)" stroke-width="1"/>
+                <path d="M62 55 Q50 90 48 130 L48 258 Q48 285 100 285 Q152 285 152 258 L152 130 Q150 90 138 55Z" fill="rgba(201,168,76,0.06)" stroke="rgba(201,168,76,0.4)" stroke-width="1.2"/>
+                <path d="M54 140 Q100 155 146 140" stroke="rgba(201,168,76,0.25)" stroke-width="1" fill="none"/>
+                <path d="M56 180 Q100 195 144 180" stroke="rgba(201,168,76,0.15)" stroke-width="0.8" fill="none"/>
+                <text x="100" y="245" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="11" fill="rgba(201,168,76,0.5)">Obsidian Series</text>
+              </svg>
+            </div>
+            <div class="img-placeholder" data-list-image="crystal" style="background:linear-gradient(135deg,#0d1520,#111);">
+              <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:60%;height:auto;">
+                <rect x="70" y="0" width="60" height="65" rx="12" fill="rgba(180,220,255,0.1)" stroke="rgba(180,220,255,0.5)" stroke-width="1"/>
+                <path d="M55 65 Q42 105 40 145 L40 255 Q40 284 100 284 Q160 284 160 255 L160 145 Q158 105 145 65Z" fill="rgba(180,220,255,0.05)" stroke="rgba(180,220,255,0.35)" stroke-width="1.2"/>
+                <ellipse cx="100" cy="195" rx="55" ry="14" fill="none" stroke="rgba(180,220,255,0.1)" stroke-width="0.8"/>
+                <text x="100" y="250" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="11" fill="rgba(180,220,255,0.4)">Crystal Reserve</text>
+              </svg>
+            </div>
+            <div class="img-placeholder" data-list-image="gold" style="background:linear-gradient(135deg,#150f00,#111);">
+              <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:55%;height:auto;">
+                <rect x="80" y="0" width="40" height="48" rx="6" fill="rgba(255,215,0,0.15)" stroke="rgba(255,215,0,0.6)" stroke-width="1"/>
+                <path d="M68 48 Q58 78 56 110 L56 248 Q56 273 100 273 Q144 273 144 248 L144 110 Q142 78 132 48Z" fill="rgba(255,215,0,0.05)" stroke="rgba(255,215,0,0.4)" stroke-width="1.2"/>
+                <path d="M60 115 Q100 128 140 115" stroke="rgba(255,215,0,0.3)" stroke-width="1" fill="none"/>
+                <path d="M60 160 Q100 173 140 160" stroke="rgba(255,215,0,0.2)" stroke-width="0.7" fill="none"/>
+                <text x="100" y="245" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="11" fill="rgba(255,215,0,0.45)">Gold Meridian</text>
+              </svg>
+            </div>
+            <div class="img-placeholder" data-list-image="amethyst" style="background:linear-gradient(135deg,#0f0515,#111);">
+              <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:65%;height:auto;">
+                <rect x="68" y="0" width="64" height="58" rx="10" fill="rgba(200,160,220,0.1)" stroke="rgba(200,160,220,0.5)" stroke-width="1"/>
+                <path d="M52 58 Q40 92 38 128 L38 250 Q38 278 100 278 Q162 278 162 250 L162 128 Q160 92 148 58Z" fill="rgba(200,160,220,0.06)" stroke="rgba(200,160,220,0.35)" stroke-width="1.2"/>
+                <circle cx="100" cy="185" r="44" fill="none" stroke="rgba(200,160,220,0.1)" stroke-width="0.8"/>
+                <text x="100" y="248" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="11" fill="rgba(200,160,220,0.4)">Amethyst Heritage</text>
+              </svg>
+            </div>
+            <div class="img-placeholder" data-list-image="travel" style="background:linear-gradient(135deg,#0a0e0a,#111);">
+              <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:45%;height:auto;">
+                <rect x="84" y="0" width="32" height="38" rx="5" fill="rgba(120,200,160,0.12)" stroke="rgba(120,200,160,0.5)" stroke-width="1"/>
+                <path d="M76 38 Q68 60 66 85 L66 252 Q66 274 100 274 Q134 274 134 252 L134 85 Q132 60 124 38Z" fill="rgba(120,200,160,0.06)" stroke="rgba(120,200,160,0.35)" stroke-width="1.2"/>
+                <path d="M70 200 Q100 212 130 200 Q130 220 100 228 Q70 220 70 200Z" fill="rgba(120,200,160,0.04)" stroke="rgba(120,200,160,0.15)" stroke-width="0.6"/>
+                <text x="100" y="250" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="11" fill="rgba(120,200,160,0.4)">Travel Flask</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         FEATURE / CRAFTSMANSHIP TEASER
+    ====================================================== -->
+    <section class="feature-section" aria-label="Our craftsmanship">
+      <div class="container">
+        <div class="feature-grid">
+          <div class="feature-visual" data-reveal>
+            <div class="feature-visual-inner">
+              <span class="feature-number">01</span>
+              <svg viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:55%;height:auto;opacity:0.6;">
+                <rect x="110" y="0" width="80" height="90" rx="14" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.5)" stroke-width="1.2"/>
+                <path d="M90 90 Q70 145 66 195 L66 340 Q66 385 150 385 Q234 385 234 340 L234 195 Q230 145 210 90Z" fill="rgba(201,168,76,0.06)" stroke="rgba(201,168,76,0.4)" stroke-width="1.5"/>
+                <path d="M74 200 Q150 220 226 200" stroke="rgba(201,168,76,0.2)" stroke-width="1" fill="none"/>
+                <path d="M72 260 Q150 280 228 260" stroke="rgba(201,168,76,0.14)" stroke-width="0.8" fill="none"/>
+                <text x="150" y="350" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="14" fill="rgba(201,168,76,0.35)">Noir Vessels</text>
+              </svg>
+            </div>
+          </div>
+          <div class="feature-content">
+            <span class="eyebrow" data-reveal>Our Philosophy</span>
+            <h2 data-split>Obsession<br>Made Visible</h2>
+            <span class="sep"></span>
+            <p class="lead" data-reveal>
+              Every vessel that leaves our atelier has been touched by at least forty pairs of hands over hundreds of hours. We do not manufacture — we sculpt time itself into tangible beauty.
+            </p>
+            <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.85;" data-reveal>
+              Our master glassblowers train for a decade before they are permitted to shape a Noir Vessels piece. Each signature — a faint engraved numeral on the base — tells the story of who breathed life into that particular vessel.
+            </p>
+            <div class="mt-md">
+              <a href="craftsmanship.html" class="btn btn-ghost">
+                Discover Our Process
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         TESTIMONIALS
+    ====================================================== -->
+    <section class="testimonials-section" aria-label="Customer testimonials">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow" data-reveal>Collectors Speak</span>
+          <h2 data-split>Words of<br><em>Distinction</em></h2>
+        </div>
+      </div>
+      <div style="overflow:hidden;margin-top:clamp(40px,6vw,80px);">
+        <div class="testimonials-track" aria-label="Testimonial carousel">
+          <div class="testimonial-card">
+            <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+            <p class="testimonial-quote">"The Crystal Reserve IV piece is unlike anything in my collection. The way light moves through it at dusk borders on the supernatural."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar" aria-hidden="true">VR</div>
+              <div>
+                <p class="testimonial-name">Valentina Rossi</p>
+                <p class="testimonial-title">Collector · Milano</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+            <p class="testimonial-quote">"I have been acquiring luxury objects for thirty years. Noir Vessels operates at a level entirely apart — the craftsmanship is museum quality."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar" aria-hidden="true">JB</div>
+              <div>
+                <p class="testimonial-name">James Beaumont</p>
+                <p class="testimonial-title">Private Collector · London</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+            <p class="testimonial-quote">"The Amethyst Heritage pair I commissioned as a wedding gift moved the recipients to tears. This is art, not merely an object."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar" aria-hidden="true">SK</div>
+              <div>
+                <p class="testimonial-name">Sophia König</p>
+                <p class="testimonial-title">Interior Curator · Vienna</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+            <p class="testimonial-quote">"My Soleil Doré Flask has accompanied me through seven countries. The preservation of temperature and the weight in hand — perfect."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar" aria-hidden="true">LM</div>
+              <div>
+                <p class="testimonial-name">Lucien Moreau</p>
+                <p class="testimonial-title">Connoisseur · Paris</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+            <p class="testimonial-quote">"The packaging alone was a theatrical experience — black silk, hand-tied ribbon, a personal note from the maison's Director. Extraordinary."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar" aria-hidden="true">AC</div>
+              <div>
+                <p class="testimonial-name">Alexandre Chen</p>
+                <p class="testimonial-title">Gallerist · Hong Kong</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         JOURNAL TEASER
+    ====================================================== -->
+    <section class="section section-alt" aria-label="Latest journal entries">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow" data-reveal>The Maison Journal</span>
+          <h2 data-split>Stories &amp;<br><em>Perspectives</em></h2>
+        </div>
+        <div class="journal-grid" data-stagger-parent>
+
+          <a href="journal.html" class="journal-card" data-stagger-child>
+            <div class="journal-img">
+              <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0d0d0d,#1a1208);display:flex;align-items:center;justify-content:center;">
+                <svg viewBox="0 0 200 140" fill="none" style="width:70%;height:auto;opacity:0.5;">
+                  <path d="M40 70 Q100 40 160 70" stroke="rgba(201,168,76,0.6)" stroke-width="1.5" fill="none"/>
+                  <circle cx="100" cy="70" r="30" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+                </svg>
+              </div>
+            </div>
+            <div class="journal-body">
+              <span class="journal-tag">Craft</span>
+              <h3 class="journal-title">The Art of the Gather: Inside a Murano Glassblowing Session</h3>
+              <p class="journal-excerpt">We spent three days inside the Fornace Venier workshop watching maestro Luigi Venier coax molten glass into impossible forms.</p>
+              <div class="journal-meta">
+                <span>March 2026</span>
+                <span>8 min read</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="journal.html" class="journal-card" data-stagger-child>
+            <div class="journal-img">
+              <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0d0d18,#111);display:flex;align-items:center;justify-content:center;">
+                <svg viewBox="0 0 200 140" fill="none" style="width:70%;height:auto;opacity:0.5;">
+                  <rect x="60" y="20" width="80" height="100" rx="8" fill="none" stroke="rgba(180,220,255,0.4)" stroke-width="1"/>
+                  <path d="M60 50 L140 50" stroke="rgba(180,220,255,0.2)" stroke-width="0.7"/>
+                  <path d="M60 80 L140 80" stroke="rgba(180,220,255,0.2)" stroke-width="0.7"/>
+                </svg>
+              </div>
+            </div>
+            <div class="journal-body">
+              <span class="journal-tag">Heritage</span>
+              <h3 class="journal-title">Why Bohemian Crystal Remains the Summit of Glass-Making Art</h3>
+              <p class="journal-excerpt">A thousand-year tradition distilled into each lead-free crystal vessel. We trace the lineage from medieval Bohemian forest glasshouses to our Paris atelier.</p>
+              <div class="journal-meta">
+                <span>February 2026</span>
+                <span>12 min read</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="journal.html" class="journal-card" data-stagger-child>
+            <div class="journal-img">
+              <div style="position:absolute;inset:0;background:linear-gradient(135deg,#150f00,#111);display:flex;align-items:center;justify-content:center;">
+                <svg viewBox="0 0 200 140" fill="none" style="width:70%;height:auto;opacity:0.5;">
+                  <circle cx="100" cy="70" r="45" fill="none" stroke="rgba(255,215,0,0.3)" stroke-width="1"/>
+                  <circle cx="100" cy="70" r="25" fill="rgba(255,215,0,0.04)" stroke="rgba(255,215,0,0.5)" stroke-width="1"/>
+                </svg>
+              </div>
+            </div>
+            <div class="journal-body">
+              <span class="journal-tag">Collector</span>
+              <h3 class="journal-title">The New Collector's Guide: Building a Noir Vessels Provenance</h3>
+              <p class="journal-excerpt">Every piece arrives with a sealed provenance certificate. Here is how serious collectors are cataloguing and displaying their acquisitions.</p>
+              <div class="journal-meta">
+                <span>January 2026</span>
+                <span>6 min read</span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+        <div class="text-center mt-lg">
+          <a href="journal.html" class="btn btn-outline">Read All Stories</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         CTA BAND
+    ====================================================== -->
+    <section class="section section-dark" style="text-align:center;" aria-label="Call to action">
+      <div class="container">
+        <span class="eyebrow" data-reveal>Private Acquisitions</span>
+        <h2 data-split>Commission<br>the <em>Impossible</em></h2>
+        <p class="lead text-center" style="margin:1.5rem auto 2.5rem;" data-reveal>
+          Our bespoke programme allows collectors to co-create one-of-a-kind pieces directly with our master craftspeople. No catalogues, no compromises.
+        </p>
+        <a href="contact.html" class="btn btn-primary">Begin Your Commission</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================
+       FOOTER
+  ====================================================== -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-top">
+
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">NOIR VESSELS</a>
+          <p class="footer-tagline">Where glass becomes poetry and craft becomes obsession. Each vessel a meditation on the impossible art of perfection.</p>
+          <div class="footer-social" aria-label="Social media links">
+            <a href="#" aria-label="Instagram" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+            </a>
+            <a href="#" aria-label="Pinterest" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.22-5.14 1.22-5.14s-.31-.62-.31-1.54c0-1.44.84-2.52 1.88-2.52.89 0 1.31.67 1.31 1.47 0 .9-.57 2.24-.87 3.49-.25 1.04.52 1.89 1.54 1.89 1.85 0 3.09-2.36 3.09-5.15 0-2.12-1.44-3.72-4.04-3.72-2.94 0-4.77 2.2-4.77 4.64 0 .84.24 1.43.62 1.89.17.2.19.28.13.51-.04.17-.14.57-.18.73-.06.24-.24.32-.44.23-1.24-.51-1.82-1.87-1.82-3.4 0-2.52 2.12-5.54 6.33-5.54 3.37 0 5.6 2.44 5.6 5.06 0 3.46-1.93 6.06-4.76 6.06-.95 0-1.85-.51-2.16-1.09l-.6 2.35c-.2.76-.72 1.71-1.11 2.29.84.25 1.73.39 2.65.39 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            </a>
+            <a href="#" aria-label="Twitter / X" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Collections</h5>
+          <ul>
+            <li><a href="collections.html">Obsidian Series</a></li>
+            <li><a href="collections.html">Crystal Reserve</a></li>
+            <li><a href="collections.html">Gold Meridian</a></li>
+            <li><a href="collections.html">Amethyst Heritage</a></li>
+            <li><a href="collections.html">Emerald Vault</a></li>
+            <li><a href="collections.html">Travel Flasks</a></li>
+            <li><a href="collections.html">Collector Sets</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Maison</h5>
+          <ul>
+            <li><a href="craftsmanship.html">Our Craft</a></li>
+            <li><a href="craftsmanship.html">The Artisans</a></li>
+            <li><a href="journal.html">Journal</a></li>
+            <li><a href="contact.html">Commissions</a></li>
+            <li><a href="contact.html">Wholesale</a></li>
+            <li><a href="contact.html">Press</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Support</h5>
+          <ul>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#">Shipping &amp; Returns</a></li>
+            <li><a href="#">Care Guide</a></li>
+            <li><a href="#">Authenticity</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Store Locator</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-newsletter">
+          <div>
+            <h4>The Inner Circle</h4>
+            <p>Exclusive previews, private events, and first access to limited editions — for those who know.</p>
+          </div>
+          <form class="newsletter-form" aria-label="Newsletter signup">
+            <label for="footer-email" style="position:absolute;clip:rect(0,0,0,0);overflow:hidden;">Email address</label>
+            <input type="email" id="footer-email" placeholder="Your email address" required autocomplete="email" />
+            <button type="submit">Join</button>
+          </form>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-legal">
+          &copy; 2026 Noir Vessels SAS &nbsp;·&nbsp; 22 Rue du Faubourg Saint-Honoré, 75008 Paris &nbsp;·&nbsp;
+          <a href="#">Privacy</a> &nbsp;·&nbsp;
+          <a href="#">Terms</a> &nbsp;·&nbsp;
+          <a href="#">Cookies</a>
+        </p>
+        <p class="footer-legal">
+          Registered in France &nbsp;·&nbsp; SIRET 882 461 734 00019 &nbsp;·&nbsp; TVA FR 42 882461734
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Register ScrollTrigger
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+  </script>
+  <script src="main.js"></script>
+</body>
+</html>

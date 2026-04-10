@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Noir Vessels Journal — Stories, craft essays, collector guides, and perspectives from the maison." />
+  <title>Journal — Noir Vessels</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+  <style>
+    .journal-hero-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 80px;
+      background: var(--surface-2);
+      cursor: none;
+      transition: border-color 0.3s;
+    }
+
+    .journal-hero-card:hover {
+      border-color: rgba(201,168,76,0.3);
+    }
+
+    .journal-hero-card .journal-img {
+      aspect-ratio: 4/3;
+    }
+
+    .journal-hero-card .journal-body {
+      padding: clamp(32px, 5vw, 60px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .journal-hero-card .journal-title {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      margin-bottom: 16px;
+    }
+
+    .journal-hero-card .journal-excerpt {
+      font-size: 0.95rem;
+      margin-bottom: 32px;
+    }
+
+    .journal-category-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .journal-cat-btn {
+      padding: 7px 18px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      background: transparent;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      cursor: none;
+      transition: all var(--transition-fast);
+    }
+
+    .journal-cat-btn:hover,
+    .journal-cat-btn.active {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .journal-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: sticky;
+      top: calc(var(--nav-height) + 40px);
+    }
+
+    .sidebar-widget {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px;
+    }
+
+    .sidebar-widget h4 {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .sidebar-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .sidebar-tag {
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      cursor: none;
+      transition: all 0.2s;
+    }
+
+    .sidebar-tag:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .recent-post {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      cursor: none;
+      transition: color 0.2s;
+    }
+
+    .recent-post:last-child { border-bottom: none; }
+    .recent-post:hover h5 { color: var(--gold); }
+
+    .recent-post-thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 3px;
+      background: var(--surface);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .recent-post h5 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 4px;
+      transition: color 0.2s;
+    }
+
+    .recent-post span {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 60px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .journal-sidebar {
+        position: static;
+      }
+
+      .journal-hero-card {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loader" aria-hidden="true">
+    <div class="loader-logo">JOURNAL</div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+
+  <div id="scroll-progress" aria-hidden="true"></div>
+  <div id="cursor-dot" aria-hidden="true"></div>
+  <div id="cursor-follower" aria-hidden="true"></div>
+  <div id="cursor-label" aria-hidden="true"></div>
+
+  <div id="page-transition" aria-hidden="true">
+    <div class="pt-panel"></div>
+    <div class="pt-logo">NOIR VESSELS</div>
+  </div>
+
+  <nav class="mobile-menu" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="collections.html">Collections</a>
+    <a href="craftsmanship.html">Craftsmanship</a>
+    <a href="journal.html">Journal</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <header id="nav" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Noir Vessels — Home">NOIR VESSELS</a>
+      <ul class="nav-links" aria-label="Primary navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="craftsmanship.html">Craftsmanship</a></li>
+        <li><a href="journal.html">Journal</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-cta-item"><a href="collections.html" class="nav-cta">Shop Now</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-bg" aria-hidden="true"></div>
+      <div class="container">
+        <span class="eyebrow" data-reveal>Stories &amp; Perspectives</span>
+        <h1 data-split>The Maison<br><em>Journal</em></h1>
+        <p class="lead" style="margin-top:1.5rem;" data-reveal>
+          Essays on craft, collector guides, atelier dispatches, and the culture of the extraordinary.
+        </p>
+      </div>
+    </div>
+
+    <section class="section" aria-label="Journal articles">
+      <div class="container">
+
+        <!-- Featured Article -->
+        <a href="journal.html" class="journal-hero-card" aria-label="Featured article: The Art of the Gather">
+          <div class="journal-img" style="position:relative;">
+            <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0d0d0d,#1a1208);display:flex;align-items:center;justify-content:center;" aria-hidden="true">
+              <svg viewBox="0 0 300 200" fill="none" style="width:70%;height:auto;opacity:0.5;">
+                <circle cx="150" cy="100" r="60" fill="none" stroke="rgba(201,168,76,0.4)" stroke-width="1.5"/>
+                <path d="M90 100 Q150 60 210 100 Q150 140 90 100Z" fill="rgba(201,168,76,0.05)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+                <line x1="150" y1="40" x2="150" y2="160" stroke="rgba(201,168,76,0.2)" stroke-width="0.8" stroke-dasharray="4 4"/>
+              </svg>
+            </div>
+          </div>
+          <div class="journal-body">
+            <span class="journal-tag" style="font-size:0.72rem;">✦ Editor's Pick &nbsp;·&nbsp; Craft</span>
+            <h2 class="journal-title">The Art of the Gather: Inside a Murano Glassblowing Session</h2>
+            <p class="journal-excerpt">We spent three days inside the Fornace Venier workshop on Murano island, watching maestro Luigi Venier coax molten glass into impossible forms. The temperature in the hall never drops below 40°C, and the light shifts constantly between amber and white-hot orange. Here is what we saw.</p>
+            <div class="journal-meta" style="margin-top:auto;">
+              <span>March 2026 &nbsp;·&nbsp; Elise Beaumont</span>
+              <span>8 min read</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Category filter -->
+        <div class="journal-category-bar" role="group" aria-label="Filter by category">
+          <button class="journal-cat-btn active" data-cat="all" aria-pressed="true">All</button>
+          <button class="journal-cat-btn" data-cat="craft" aria-pressed="false">Craft</button>
+          <button class="journal-cat-btn" data-cat="heritage" aria-pressed="false">Heritage</button>
+          <button class="journal-cat-btn" data-cat="collector" aria-pressed="false">Collector</button>
+          <button class="journal-cat-btn" data-cat="culture" aria-pressed="false">Culture</button>
+          <button class="journal-cat-btn" data-cat="atelier" aria-pressed="false">Atelier</button>
+        </div>
+
+        <div class="main-grid">
+
+          <!-- Articles -->
+          <div>
+            <div class="journal-grid" data-stagger-parent id="journal-grid">
+
+              <a href="journal.html" class="journal-card" data-stagger-child data-category="heritage">
+                <div class="journal-img">
+                  <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0d0d18,#111);display:flex;align-items:center;justify-content:center;" aria-hidden="true">
+                    <svg viewBox="0 0 200 140" fill="none" style="width:65%;height:auto;opacity:0.45;">
+                      <rect x="60" y="20" width="80" height="100" rx="8" fill="none" stroke="rgba(180,220,255,0.4)" stroke-width="1"/>
+                      <path d="M60 50 L140 50" stroke="rgba(180,220,255,0.2)" stroke-width="0.7"/>
+                      <path d="M60 80 L140 80" stroke="rgba(180,220,255,0.2)" stroke-width="0.7"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="journal-body">
+                  <span class="journal-tag">Heritage</span>
+                  <h3 class="journal-title">Why Bohemian Crystal Remains the Summit of Glass-Making Art</h3>
+                  <p class="journal-excerpt">A thousand-year tradition in lead-free crystal — traced from medieval Bohemian forest glasshouses to the 21st-century atelier.</p>
+                  <div class="journal-meta">
+                    <span>February 2026 &nbsp;·&nbsp; Tomáš Novák</span>
+                    <span>12 min</span>
+                  </div>
+                </div>
+              </a>
+
+              <a href="journal.html" class="journal-card" data-stagger-child data-category="collector">
+                <div class="journal-img">
+                  <div style="position:absolute;inset:0;background:linear-gradient(135deg,#150f00,#111);display:flex;align-items:center;justify-content:center;" aria-hidden="true">
+                    <svg viewBox="0 0 200 140" fill="none" style="width:65%;height:auto;opacity:0.45;">
+                      <circle cx="100" cy="70" r="45" fill="none" stroke="rgba(255,215,0,0.3)" stroke-width="1"/>
+                      <circle cx="100" cy="70" r="25" fill="rgba(255,215,0,0.04)" stroke="rgba(255,215,0,0.5)" stroke-width="1"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="journal-body">
+                  <span class="journal-tag">Collector</span>
+                  <h3 class="journal-title">Building a Noir Vessels Provenance: A Collector's Guide</h3>
+                  <p class="journal-excerpt">Every piece arrives with a wax-sealed provenance certificate. Here is how serious collectors are cataloguing and displaying their acquisitions.</p>
+                  <div class="journal-meta">
+                    <span>January 2026 &nbsp;·&nbsp; James Beaumont</span>
+                    <span>6 min</span>
+                  </div>
+                </div>
+              </a>
+
+              <a href="journal.html" class="journal-card" data-stagger-child data-category="craft">
+                <div class="journal-img">
+                  <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0a100a,#111);display:flex;align-items:center;justify-content:center;" aria-hidden="true">
+                    <svg viewBox="0 0 200 140" fill="none" style="width:65%;height:auto;opacity:0.45;">
+                      <path d="M40 70 Q100 30 160 70 Q100 110 40 70Z" fill="rgba(120,200,160,0.06)" stroke="rgba(120,200,160,0.4)" stroke-width="1"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="journal-body">
+                  <span class="journal-tag">Craft</span>
+                  <h3 class="journal-title">The Annealing Lehr: The Invisible Art of Controlled Cooling</h3>
+                  <p class="journal-excerpt">Most collectors never think about the 18-hour journey glass takes through the annealing oven. This step, invisible and silent, is perhaps the most critical of all.</p>
+                  <div class="journal-meta">
+                    <span>December 2025 &nbsp;·&nbsp; Elise Beaumont</span>
+                    <span>9 min</span>
+                  </div>
+                </div>
+              </a>
+
+              <a href="journal.html" class="journal-card" data-stagger-child data-category="culture">
+                <div class="journal-img">
+                  <div style="position:absolute;inset:0;background:linear-gradient(135deg,#150510,#111);display:flex;align-items:center;justify-content:center;" aria-hidden="true">
+                    <svg viewBox="0 0 200 140" fill="none" style="width:65%;height:auto;opacity:0.45;">
+                      <path d="M50 110 L100 30 L150 110 Z" fill="rgba(200,160,220,0.05)" stroke="rgba(200,160,220,0.4)" stroke-width="1"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="journal-body">
+                  <span class="journal-tag">Culture</span>
+                  <h3 class="journal-title">Glass Through the Ages: From Roman Luxury to Noir Vessels</h3>
+                  <p class="journal-excerpt">The Romans called it "liquid stone." Two millennia later, we are still chasing the same impossible quality — glass that seems to hold light rather than merely transmit it.</p>
+                  <div class="journal-meta">
+                    <span>November 2025 &nbsp;·&nbsp; Valentina Rossi</span>
+                    <span>15 min</span>
+                  </div>
+                </div>
+              </a>
+
+              <a href="journal.html" class="journal-card" data-stagger-child data-category="atelier">
+                <div class="journal-img">
+                  <div style="position:absolute;inset:0;background:linear-gradient(135deg,#080808,#181412);display:flex;align-items:center;justify-content:center;" aria-hidden="true">
+                    <svg viewBox="0 0 200 140" fill="none" style="width:65%;height:auto;opacity:0.45;">
+                      <rect x="40" y="40" width="120" height="80" rx="4" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+                      <line x1="80" y1="40" x2="80" y2="120" stroke="rgba(201,168,76,0.15)" stroke-width="0.7"/>
+                      <line x1="120" y1="40" x2="120" y2="120" stroke="rgba(201,168,76,0.15)" stroke-width="0.7"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="journal-body">
+                  <span class="journal-tag">Atelier</span>
+                  <h3 class="journal-title">Life Inside the Paris Atelier: A Day with Hélène Marchand</h3>
+                  <p class="journal-excerpt">Our master silversmith arrives at 7am each morning. By the time other Parisians are finishing their first coffee, she has already bent a sheet of sterling into the beginnings of a cage.</p>
+                  <div class="journal-meta">
+                    <span>October 2025 &nbsp;·&nbsp; Noir Vessels</span>
+                    <span>7 min</span>
+                  </div>
+                </div>
+              </a>
+
+              <a href="journal.html" class="journal-card" data-stagger-child data-category="collector">
+                <div class="journal-img">
+                  <div style="position:absolute;inset:0;background:linear-gradient(135deg,#050810,#111);display:flex;align-items:center;justify-content:center;" aria-hidden="true">
+                    <svg viewBox="0 0 200 140" fill="none" style="width:65%;height:auto;opacity:0.45;">
+                      <path d="M40 100 Q100 40 160 100" stroke="rgba(180,220,255,0.4)" stroke-width="1.5" fill="none"/>
+                      <circle cx="40" cy="100" r="4" fill="rgba(180,220,255,0.4)"/>
+                      <circle cx="160" cy="100" r="4" fill="rgba(180,220,255,0.4)"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="journal-body">
+                  <span class="journal-tag">Collector</span>
+                  <h3 class="journal-title">The 2026 Acquisitions to Know Before Anyone Else Does</h3>
+                  <p class="journal-excerpt">Our maison director shares the three upcoming pieces she considers essential — and explains why they will define the next five years of serious collecting.</p>
+                  <div class="journal-meta">
+                    <span>September 2025 &nbsp;·&nbsp; Isabelle Fontaine-Noir</span>
+                    <span>5 min</span>
+                  </div>
+                </div>
+              </a>
+
+            </div>
+
+            <!-- Load more -->
+            <div class="text-center mt-lg">
+              <button class="btn btn-outline" aria-label="Load more articles">Load More Stories</button>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <aside class="journal-sidebar" aria-label="Journal sidebar">
+
+            <div class="sidebar-widget">
+              <h4>Topics</h4>
+              <div class="sidebar-tags" role="list">
+                <a href="journal.html" class="sidebar-tag" role="listitem">Craft</a>
+                <a href="journal.html" class="sidebar-tag" role="listitem">Heritage</a>
+                <a href="journal.html" class="sidebar-tag" role="listitem">Collector</a>
+                <a href="journal.html" class="sidebar-tag" role="listitem">Culture</a>
+                <a href="journal.html" class="sidebar-tag" role="listitem">Atelier</a>
+                <a href="journal.html" class="sidebar-tag" role="listitem">Murano</a>
+                <a href="journal.html" class="sidebar-tag" role="listitem">Bohemia</a>
+                <a href="journal.html" class="sidebar-tag" role="listitem">Gold Leaf</a>
+                <a href="journal.html" class="sidebar-tag" role="listitem">Crystal</a>
+                <a href="journal.html" class="sidebar-tag" role="listitem">Provenance</a>
+              </div>
+            </div>
+
+            <div class="sidebar-widget">
+              <h4>Recent Posts</h4>
+              <a href="journal.html" class="recent-post">
+                <div class="recent-post-thumb" aria-hidden="true">
+                  <svg viewBox="0 0 60 60" fill="none" style="width:30px;height:auto;opacity:0.4;">
+                    <circle cx="30" cy="30" r="20" stroke="rgba(201,168,76,0.6)" stroke-width="1.5" fill="none"/>
+                  </svg>
+                </div>
+                <div>
+                  <h5>The Art of the Gather</h5>
+                  <span>March 2026</span>
+                </div>
+              </a>
+              <a href="journal.html" class="recent-post">
+                <div class="recent-post-thumb" aria-hidden="true">
+                  <svg viewBox="0 0 60 60" fill="none" style="width:30px;height:auto;opacity:0.4;">
+                    <rect x="15" y="15" width="30" height="30" rx="3" stroke="rgba(180,220,255,0.6)" stroke-width="1.5" fill="none"/>
+                  </svg>
+                </div>
+                <div>
+                  <h5>Why Bohemian Crystal Remains Supreme</h5>
+                  <span>February 2026</span>
+                </div>
+              </a>
+              <a href="journal.html" class="recent-post">
+                <div class="recent-post-thumb" aria-hidden="true">
+                  <svg viewBox="0 0 60 60" fill="none" style="width:30px;height:auto;opacity:0.4;">
+                    <polygon points="30,10 50,50 10,50" stroke="rgba(255,215,0,0.6)" stroke-width="1.5" fill="none"/>
+                  </svg>
+                </div>
+                <div>
+                  <h5>Building a Noir Vessels Provenance</h5>
+                  <span>January 2026</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="sidebar-widget">
+              <h4>Newsletter</h4>
+              <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:16px;line-height:1.7;">New essays delivered to collectors who know the difference between good and extraordinary.</p>
+              <form class="newsletter-form" aria-label="Journal newsletter" style="flex-direction:column;gap:10px;">
+                <label for="journal-email" style="position:absolute;clip:rect(0,0,0,0);overflow:hidden;">Email</label>
+                <input type="email" id="journal-email" placeholder="Email address" required autocomplete="email" style="border-radius:2px;" />
+                <button type="submit" style="border-radius:2px;width:100%;text-align:center;">Subscribe</button>
+              </form>
+            </div>
+
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">NOIR VESSELS</a>
+          <p class="footer-tagline">Where glass becomes poetry and craft becomes obsession.</p>
+          <div class="footer-social" aria-label="Social media links">
+            <a href="#" aria-label="Instagram" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></a>
+            <a href="#" aria-label="Twitter" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Journal</h5>
+          <ul>
+            <li><a href="journal.html">All Stories</a></li>
+            <li><a href="journal.html">Craft</a></li>
+            <li><a href="journal.html">Heritage</a></li>
+            <li><a href="journal.html">Collector Guides</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Maison</h5>
+          <ul>
+            <li><a href="collections.html">Collections</a></li>
+            <li><a href="craftsmanship.html">Craftsmanship</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Support</h5>
+          <ul>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Privacy</a></li>
+          </ul>
+        </div>
+        <div class="footer-newsletter">
+          <div>
+            <h4>Journal Newsletter</h4>
+            <p>New essays and dispatches from the ateliers of Noir Vessels.</p>
+          </div>
+          <form class="newsletter-form" aria-label="Footer newsletter">
+            <label for="footer-email-j" style="position:absolute;clip:rect(0,0,0,0);overflow:hidden;">Email</label>
+            <input type="email" id="footer-email-j" placeholder="Your email address" required autocomplete="email" />
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-legal">&copy; 2026 Noir Vessels SAS · 22 Rue du Faubourg Saint-Honoré, 75008 Paris · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+
+    // Journal category filter
+    document.addEventListener('DOMContentLoaded', () => {
+      const catBtns = document.querySelectorAll('.journal-cat-btn');
+      const cards = document.querySelectorAll('#journal-grid .journal-card');
+
+      catBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          catBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
+          btn.classList.add('active');
+          btn.setAttribute('aria-pressed', 'true');
+
+          const cat = btn.dataset.cat;
+          cards.forEach(card => {
+            if (cat === 'all' || card.dataset.category === cat) {
+              card.style.display = '';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+  </script>
+  <script src="main.js"></script>
+</body>
+</html>
