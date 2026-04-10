@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Noir Vessels Craftsmanship — The art and obsession behind every ultra-premium bottle. Meet our artisans and discover our process." />
+  <title>Craftsmanship — Noir Vessels</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="vendor/lenis.min.js"></script>
+
+  <style>
+    .process-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: clamp(20px, 4vw, 60px);
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    }
+
+    .process-step {
+      display: grid;
+      grid-template-columns: clamp(80px, 10vw, 140px) 1fr;
+      gap: 40px;
+      align-items: start;
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .process-step:last-child {
+      border-bottom: none;
+    }
+
+    .step-number-col {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding-right: 24px;
+      padding-top: 4px;
+    }
+
+    .step-dot {
+      position: absolute;
+      right: -5px;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 2px solid var(--black);
+      box-shadow: 0 0 0 2px var(--gold);
+    }
+
+    .step-num {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      color: rgba(201,168,76,0.15);
+      line-height: 1;
+    }
+
+    .step-content {
+      padding-top: 4px;
+    }
+
+    .step-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .step-title {
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      margin-bottom: 16px;
+    }
+
+    .step-body {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.9;
+      max-width: 56ch;
+    }
+
+    .artisan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .artisan-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: border-color var(--transition-fast), transform var(--transition-medium);
+    }
+
+    .artisan-card:hover {
+      border-color: rgba(201,168,76,0.3);
+      transform: translateY(-4px);
+    }
+
+    .artisan-portrait {
+      aspect-ratio: 3/4;
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .artisan-portrait::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+    }
+
+    .artisan-info {
+      padding: 24px;
+    }
+
+    .artisan-name {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+
+    .artisan-role {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .artisan-bio {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    .atelier-highlight {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: clamp(32px, 5vw, 60px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .atelier-highlight::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(201,168,76,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .timeline-item {
+      background: var(--surface-2);
+      padding: 28px 24px;
+      text-align: center;
+    }
+
+    .timeline-year {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .timeline-event {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 600px) {
+      .process-step {
+        grid-template-columns: 60px 1fr;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loader" aria-hidden="true">
+    <div class="loader-logo">CRAFTSMANSHIP</div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+
+  <div id="scroll-progress" aria-hidden="true"></div>
+  <div id="cursor-dot" aria-hidden="true"></div>
+  <div id="cursor-follower" aria-hidden="true"></div>
+  <div id="cursor-label" aria-hidden="true"></div>
+
+  <div id="page-transition" aria-hidden="true">
+    <div class="pt-panel"></div>
+    <div class="pt-logo">NOIR VESSELS</div>
+  </div>
+
+  <nav class="mobile-menu" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="collections.html">Collections</a>
+    <a href="craftsmanship.html">Craftsmanship</a>
+    <a href="journal.html">Journal</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <header id="nav" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Noir Vessels — Home">NOIR VESSELS</a>
+      <ul class="nav-links" aria-label="Primary navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="craftsmanship.html">Craftsmanship</a></li>
+        <li><a href="journal.html">Journal</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-cta-item"><a href="collections.html" class="nav-cta">Shop Now</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Page Header -->
+    <div class="page-header" style="background:var(--black);">
+      <div class="page-header-bg" aria-hidden="true"></div>
+      <div class="container">
+        <span class="eyebrow" data-reveal>The Obsession Behind the Object</span>
+        <h1 data-split>Craftsmanship</h1>
+        <p class="lead" style="margin-top:1.5rem;" data-reveal>
+          At Noir Vessels, we do not believe in shortcuts. We believe in the irreplaceable intelligence of trained hands and the alchemy of decades of mastery.
+        </p>
+      </div>
+    </div>
+
+    <!-- Manifesto -->
+    <section class="section" aria-label="Our manifesto">
+      <div class="container">
+        <div style="max-width: 72ch; margin: 0 auto; text-align: center;">
+          <span class="eyebrow" data-reveal>Our Manifesto</span>
+          <h2 data-split style="margin-bottom:2rem;">The Doctrine<br>of <em>Impeccable</em></h2>
+          <p style="font-family:var(--font-display);font-style:italic;font-size:clamp(1.1rem,2vw,1.5rem);line-height:1.8;color:var(--text-secondary);" data-reveal>
+            "There exists a moment in the making of a great vessel when the material and the maker
+            cease to be separate things. Our craftspeople live for that moment — and so do we."
+          </p>
+          <p style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-top:1.5rem;" data-reveal>
+            — Isabelle Fontaine-Noir, Founding Director
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <div class="stats-section" aria-label="Craft statistics">
+      <div class="container">
+        <div class="stats-grid" data-stagger-parent>
+          <div class="stat-item" data-stagger-child>
+            <span class="stat-number" data-count="400" data-count-suffix="+">400+</span>
+            <span class="stat-label">Hours Per Piece</span>
+          </div>
+          <div class="stat-item" data-stagger-child>
+            <span class="stat-number" data-count="42" data-count-suffix="">42</span>
+            <span class="stat-label">Skilled Artisans</span>
+          </div>
+          <div class="stat-item" data-stagger-child>
+            <span class="stat-number" data-count="7" data-count-suffix="">7</span>
+            <span class="stat-label">Ateliers Worldwide</span>
+          </div>
+          <div class="stat-item" data-stagger-child>
+            <span class="stat-number" data-count="10" data-count-suffix=" yrs">10 yrs</span>
+            <span class="stat-label">Avg. Artisan Training</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Process Steps -->
+    <section class="section section-alt" aria-label="Our crafting process">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow" data-reveal>The Process</span>
+          <h2 data-split>From Molten Glass<br>to <em>Masterwork</em></h2>
+        </div>
+
+        <div class="process-steps" role="list" aria-label="Crafting process steps">
+
+          <div class="process-step" role="listitem" data-reveal>
+            <div class="step-number-col">
+              <span class="step-dot" aria-hidden="true"></span>
+              <span class="step-num" aria-hidden="true">01</span>
+            </div>
+            <div class="step-content">
+              <span class="step-label">Material Selection</span>
+              <h3 class="step-title">The Hunt for Exceptional Glass</h3>
+              <p class="step-body">Our sourcing team travels twice yearly to Bohemia, Murano, and specialist suppliers in Kyushu, Japan to handpick raw materials. Each batch of silica sand, lead-free cullet, or mineral colourant is tested in our laboratory for purity, refractive index, and thermal stability before a single gram enters our ateliers.</p>
+            </div>
+          </div>
+
+          <div class="process-step" role="listitem" data-reveal>
+            <div class="step-number-col">
+              <span class="step-dot" aria-hidden="true"></span>
+              <span class="step-num" aria-hidden="true">02</span>
+            </div>
+            <div class="step-content">
+              <span class="step-label">The Gather</span>
+              <h3 class="step-title">Molten Glass, Living Breath</h3>
+              <p class="step-body">At 1,200°C, our master glassblowers — <em>maestri soffiatori</em> — gather molten glass onto the blowpipe with a single, assured movement. The temperature must be read in the colour of the glow: amber for gathering, bright orange for shaping, cooling yellow for finishing. Years of practice condense into each silent moment at the furnace.</p>
+            </div>
+          </div>
+
+          <div class="process-step" role="listitem" data-reveal>
+            <div class="step-number-col">
+              <span class="step-dot" aria-hidden="true"></span>
+              <span class="step-num" aria-hidden="true">03</span>
+            </div>
+            <div class="step-content">
+              <span class="step-label">Shaping</span>
+              <h3 class="step-title">Three Days, One Form</h3>
+              <p class="step-body">Unlike mass production, each Noir Vessels piece is shaped over two to three days in iterative sessions — reheating, blowing, stretching, and pressing — until the silhouette matches the original wax maquette exactly. The maestro works from memory and intuition, with the maquette present only as a final reference, never a crutch.</p>
+            </div>
+          </div>
+
+          <div class="process-step" role="listitem" data-reveal>
+            <div class="step-number-col">
+              <span class="step-dot" aria-hidden="true"></span>
+              <span class="step-num" aria-hidden="true">04</span>
+            </div>
+            <div class="step-content">
+              <span class="step-label">Annealing</span>
+              <h3 class="step-title">The Art of Controlled Cooling</h3>
+              <p class="step-body">After forming, each piece enters the lehr — a carefully calibrated annealing oven — where it is cooled from 540°C to room temperature over 18 hours. This slow release of thermal stress is the invisible difference between a vessel that lasts a lifetime and one that will shatter under the slightest change.</p>
+            </div>
+          </div>
+
+          <div class="process-step" role="listitem" data-reveal>
+            <div class="step-number-col">
+              <span class="step-dot" aria-hidden="true"></span>
+              <span class="step-num" aria-hidden="true">05</span>
+            </div>
+            <div class="step-content">
+              <span class="step-label">Decoration</span>
+              <h3 class="step-title">Forty Hands of Finishing</h3>
+              <p class="step-body">Depending on series, the cooled vessel passes through engravers, gilders, metal cagers, lacquerers, and polishers. Our Gold Meridian pieces require 22 separate finishing stations before reaching the quality control chamber. Every surface is touched by human hands — no automated buffing, no robotic spraying.</p>
+            </div>
+          </div>
+
+          <div class="process-step" role="listitem" data-reveal>
+            <div class="step-number-col">
+              <span class="step-dot" aria-hidden="true"></span>
+              <span class="step-num" aria-hidden="true">06</span>
+            </div>
+            <div class="step-content">
+              <span class="step-label">Authentication</span>
+              <h3 class="step-title">The Signature and the Seal</h3>
+              <p class="step-body">Every finished vessel is examined under UV and raking light for 90 minutes. It receives a hand-engraved edition number and the master's personal mark on its base. A wax-sealed provenance document — with the names of each artisan who touched the piece — accompanies every acquisition.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Artisans -->
+    <section class="section" aria-label="Meet our artisans">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow" data-reveal>The Makers</span>
+          <h2 data-split>Meet Our<br><em>Artisans</em></h2>
+          <p class="lead text-center" style="margin:1rem auto 0;" data-reveal>
+            Behind every vessel, a human story. A dedication measured not in years but in decades.
+          </p>
+        </div>
+
+        <div class="artisan-grid" data-stagger-parent>
+
+          <div class="artisan-card" data-stagger-child>
+            <div class="artisan-portrait">
+              <svg viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:50%;height:auto;opacity:0.5;" aria-hidden="true">
+                <circle cx="100" cy="80" r="44" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+                <path d="M30 220 Q100 180 170 220 L170 260 L30 260 Z" fill="rgba(201,168,76,0.06)" stroke="rgba(201,168,76,0.2)" stroke-width="0.8"/>
+              </svg>
+            </div>
+            <div class="artisan-info">
+              <h3 class="artisan-name">Luigi Venier</h3>
+              <p class="artisan-role">Maestro Soffiatore · Murano</p>
+              <p class="artisan-bio">Third-generation glassblower from a Murano dynasty stretching back to 1887. Luigi has shaped over 4,000 Noir Vessels pieces in his 38-year career. He describes the ideal gather as "breathing in, then giving the glass your intention."</p>
+            </div>
+          </div>
+
+          <div class="artisan-card" data-stagger-child>
+            <div class="artisan-portrait">
+              <svg viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:50%;height:auto;opacity:0.5;" aria-hidden="true">
+                <circle cx="100" cy="80" r="44" fill="rgba(180,220,255,0.06)" stroke="rgba(180,220,255,0.3)" stroke-width="1"/>
+                <path d="M30 220 Q100 180 170 220 L170 260 L30 260 Z" fill="rgba(180,220,255,0.05)" stroke="rgba(180,220,255,0.2)" stroke-width="0.8"/>
+              </svg>
+            </div>
+            <div class="artisan-info">
+              <h3 class="artisan-name">Zuzana Horáčková</h3>
+              <p class="artisan-role">Master Engraver · Bohemia</p>
+              <p class="artisan-bio">Zuzana trained at the Škola Uměleckého Řemesla in Železný Brod for seven years before joining our atelier in 2011. Her copper-wheel engravings are considered among the finest in Europe — each motif requires three days of concentrated work.</p>
+            </div>
+          </div>
+
+          <div class="artisan-card" data-stagger-child>
+            <div class="artisan-portrait">
+              <svg viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:50%;height:auto;opacity:0.5;" aria-hidden="true">
+                <circle cx="100" cy="80" r="44" fill="rgba(255,215,0,0.05)" stroke="rgba(255,215,0,0.3)" stroke-width="1"/>
+                <path d="M30 220 Q100 180 170 220 L170 260 L30 260 Z" fill="rgba(255,215,0,0.04)" stroke="rgba(255,215,0,0.2)" stroke-width="0.8"/>
+              </svg>
+            </div>
+            <div class="artisan-info">
+              <h3 class="artisan-name">Marco Ferrara</h3>
+              <p class="artisan-role">Master Gilder · Florence</p>
+              <p class="artisan-bio">Trained under the late Giacomo Lippi of the Opificio delle Pietre Dure, Marco applies gold leaf with an ox-hair brush so fine it barely disturbs the air. His work on the Gold Meridian series has been described by critics as "the standard by which all gilding is judged."</p>
+            </div>
+          </div>
+
+          <div class="artisan-card" data-stagger-child>
+            <div class="artisan-portrait">
+              <svg viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:50%;height:auto;opacity:0.5;" aria-hidden="true">
+                <circle cx="100" cy="80" r="44" fill="rgba(200,160,220,0.06)" stroke="rgba(200,160,220,0.3)" stroke-width="1"/>
+                <path d="M30 220 Q100 180 170 220 L170 260 L30 260 Z" fill="rgba(200,160,220,0.05)" stroke="rgba(200,160,220,0.2)" stroke-width="0.8"/>
+              </svg>
+            </div>
+            <div class="artisan-info">
+              <h3 class="artisan-name">Hélène Marchand</h3>
+              <p class="artisan-role">Silversmith · Paris</p>
+              <p class="artisan-bio">A graduate of the École Boulle, Hélène crafts the sterling silver cages that define the Amethyst Heritage series. Each cage is forged from a single sheet of sterling silver, bent and soldered in our 16th arrondissement atelier over the course of four days.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="section section-alt" aria-label="Our history">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow" data-reveal>Since 2008</span>
+          <h2 data-split>Our History</h2>
+        </div>
+
+        <div class="timeline" data-stagger-parent role="list" aria-label="Company milestones">
+          <div class="timeline-item" data-stagger-child role="listitem">
+            <p class="timeline-year">2008</p>
+            <p class="timeline-event">Noir Vessels founded in Paris by Isabelle Fontaine-Noir. First atelier opens in the 16th arrondissement.</p>
+          </div>
+          <div class="timeline-item" data-stagger-child role="listitem">
+            <p class="timeline-year">2011</p>
+            <p class="timeline-event">Partnership with Fornace Venier in Murano. Launch of Crystal Reserve series. First sell-out in under 48 hours.</p>
+          </div>
+          <div class="timeline-item" data-stagger-child role="listitem">
+            <p class="timeline-year">2014</p>
+            <p class="timeline-event">Gold Meridian debuts at TEFAF Maastricht. Acquisition by the Victoria &amp; Albert Museum collection.</p>
+          </div>
+          <div class="timeline-item" data-stagger-child role="listitem">
+            <p class="timeline-year">2017</p>
+            <p class="timeline-event">Atelier Bohemia opens in Železný Brod. Amethyst Heritage series launched. Waitlist exceeds 600 names.</p>
+          </div>
+          <div class="timeline-item" data-stagger-child role="listitem">
+            <p class="timeline-year">2020</p>
+            <p class="timeline-event">Bespoke commission programme launches. Tokyo atelier opens. Obsidian Series wins the Grand Prix de la Création.</p>
+          </div>
+          <div class="timeline-item" data-stagger-child role="listitem">
+            <p class="timeline-year">2024</p>
+            <p class="timeline-event">Emerald Vault series debuts. Collector community reaches 12,000 worldwide. Online boutique relaunched.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Atelier highlight -->
+    <section class="section" aria-label="Visit our ateliers">
+      <div class="container">
+        <div class="atelier-highlight">
+          <span class="eyebrow" data-reveal>Visit Us</span>
+          <h2 data-split style="margin-bottom:1.5rem;">The Ateliers</h2>
+          <p class="lead" style="max-width:56ch;margin:0 auto 2rem;" data-reveal>
+            Private tours of our Paris and Murano ateliers are available by appointment to collectors and press. Witness a piece in creation from gather to completion.
+          </p>
+          <a href="contact.html" class="btn btn-primary">Request a Visit</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">NOIR VESSELS</a>
+          <p class="footer-tagline">Where glass becomes poetry and craft becomes obsession.</p>
+          <div class="footer-social" aria-label="Social media links">
+            <a href="#" aria-label="Instagram" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></a>
+            <a href="#" aria-label="Twitter" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Collections</h5>
+          <ul>
+            <li><a href="collections.html">All Collections</a></li>
+            <li><a href="collections.html">New Arrivals</a></li>
+            <li><a href="collections.html">Limited Editions</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Maison</h5>
+          <ul>
+            <li><a href="craftsmanship.html">Our Craft</a></li>
+            <li><a href="journal.html">Journal</a></li>
+            <li><a href="contact.html">Commissions</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Ateliers</h5>
+          <ul>
+            <li><a href="contact.html">Paris</a></li>
+            <li><a href="contact.html">Murano</a></li>
+            <li><a href="contact.html">Bohemia</a></li>
+            <li><a href="contact.html">Tokyo</a></li>
+          </ul>
+        </div>
+        <div class="footer-newsletter">
+          <div>
+            <h4>Behind the Glass</h4>
+            <p>Dispatches from the atelier — stories, techniques, and previews for the curious collector.</p>
+          </div>
+          <form class="newsletter-form" aria-label="Newsletter signup">
+            <label for="footer-email-craft" style="position:absolute;clip:rect(0,0,0,0);overflow:hidden;">Email</label>
+            <input type="email" id="footer-email-craft" placeholder="Your email address" required autocomplete="email" />
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-legal">&copy; 2026 Noir Vessels SAS · 22 Rue du Faubourg Saint-Honoré, 75008 Paris · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+  </script>
+  <script src="main.js"></script>
+</body>
+</html>

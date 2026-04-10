@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact Noir Vessels — Inquiries, bespoke commissions, wholesale, press, and atelier visits." />
+  <title>Contact — Noir Vessels</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="vendor/lenis.min.js"></script>
+
+  <style>
+    .contact-type-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-bottom: 60px;
+    }
+
+    .contact-type-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px;
+      cursor: none;
+      transition: border-color var(--transition-fast), transform var(--transition-medium);
+    }
+
+    .contact-type-card:hover,
+    .contact-type-card.active {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+    }
+
+    .contact-type-card .type-icon {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      color: var(--gold);
+      transition: background 0.3s;
+    }
+
+    .contact-type-card:hover .type-icon,
+    .contact-type-card.active .type-icon {
+      background: rgba(201,168,76,0.08);
+    }
+
+    .contact-type-card h4 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      font-family: var(--font-display);
+    }
+
+    .contact-type-card p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .atelier-locations {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+
+    .location-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px;
+      transition: border-color 0.3s;
+    }
+
+    .location-card:hover { border-color: rgba(201,168,76,0.25); }
+
+    .location-card .location-city {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .location-card .location-address {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .location-card .location-hours {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      cursor: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      transition: color 0.3s;
+    }
+
+    .faq-question:hover { color: var(--gold); }
+
+    .faq-icon {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+      border-color: var(--gold);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+    }
+
+    .faq-answer p {
+      padding: 0 0 20px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.85;
+      max-width: 60ch;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loader" aria-hidden="true">
+    <div class="loader-logo">CONTACT</div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+
+  <div id="scroll-progress" aria-hidden="true"></div>
+  <div id="cursor-dot" aria-hidden="true"></div>
+  <div id="cursor-follower" aria-hidden="true"></div>
+  <div id="cursor-label" aria-hidden="true"></div>
+
+  <div id="page-transition" aria-hidden="true">
+    <div class="pt-panel"></div>
+    <div class="pt-logo">NOIR VESSELS</div>
+  </div>
+
+  <nav class="mobile-menu" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="collections.html">Collections</a>
+    <a href="craftsmanship.html">Craftsmanship</a>
+    <a href="journal.html">Journal</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <header id="nav" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Noir Vessels — Home">NOIR VESSELS</a>
+      <ul class="nav-links" aria-label="Primary navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="craftsmanship.html">Craftsmanship</a></li>
+        <li><a href="journal.html">Journal</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-cta-item"><a href="collections.html" class="nav-cta">Shop Now</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Page Header -->
+    <div class="page-header" style="background:var(--black);">
+      <div class="page-header-bg" aria-hidden="true"></div>
+      <div class="container">
+        <span class="eyebrow" data-reveal>We are always listening</span>
+        <h1 data-split>Get in Touch</h1>
+        <p class="lead" style="margin-top:1.5rem;" data-reveal>
+          Whether you wish to acquire a piece, commission something extraordinary, visit an atelier, or simply ask a question — we welcome your message.
+        </p>
+      </div>
+    </div>
+
+    <!-- Enquiry type selector -->
+    <section class="section" aria-label="Contact options">
+      <div class="container">
+        <span class="eyebrow" data-reveal>How can we help?</span>
+        <h2 data-split style="margin-bottom:2rem;">Select Your<br>Enquiry</h2>
+
+        <div class="contact-type-grid" role="group" aria-label="Enquiry type">
+          <div class="contact-type-card active" data-type="general" tabindex="0" role="button" aria-pressed="true">
+            <div class="type-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <h4>General Enquiry</h4>
+            <p>Questions about the maison, collections, or anything else on your mind.</p>
+          </div>
+          <div class="contact-type-card" data-type="commission" tabindex="0" role="button" aria-pressed="false">
+            <div class="type-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
+            <h4>Bespoke Commission</h4>
+            <p>Begin a conversation about a one-of-a-kind vessel created with our artisans.</p>
+          </div>
+          <div class="contact-type-card" data-type="wholesale" tabindex="0" role="button" aria-pressed="false">
+            <div class="type-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <h4>Wholesale &amp; Retail</h4>
+            <p>Stocking Noir Vessels in your boutique or gallery? We'd love to speak.</p>
+          </div>
+          <div class="contact-type-card" data-type="press" tabindex="0" role="button" aria-pressed="false">
+            <div class="type-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+            </div>
+            <h4>Press &amp; Media</h4>
+            <p>Editorial requests, high-res assets, interviews, and atelier access.</p>
+          </div>
+          <div class="contact-type-card" data-type="visit" tabindex="0" role="button" aria-pressed="false">
+            <div class="type-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="12" cy="10" r="3"/>
+                <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 10-16 0c0 3 2.7 6.9 8 11.7z"/>
+              </svg>
+            </div>
+            <h4>Atelier Visit</h4>
+            <p>Request a private visit to our Paris, Murano, or Bohemia atelier.</p>
+          </div>
+        </div>
+
+        <!-- Contact form + info grid -->
+        <div class="contact-grid" aria-label="Contact form and details">
+
+          <div>
+            <form class="contact-form" id="contact-form" aria-label="Contact form" novalidate>
+              <div class="form-group">
+                <label for="contact-name">Full Name <span aria-hidden="true">*</span></label>
+                <input type="text" id="contact-name" name="name" placeholder="Your name" required autocomplete="name" />
+              </div>
+              <div class="form-group">
+                <label for="contact-email">Email Address <span aria-hidden="true">*</span></label>
+                <input type="email" id="contact-email" name="email" placeholder="your@email.com" required autocomplete="email" />
+              </div>
+              <div class="form-group">
+                <label for="contact-phone">Phone (optional)</label>
+                <input type="tel" id="contact-phone" name="phone" placeholder="+33 6 00 00 00 00" autocomplete="tel" />
+              </div>
+              <div class="form-group">
+                <label for="contact-subject">Subject</label>
+                <select id="contact-subject" name="subject" aria-label="Message subject">
+                  <option value="">Select a subject</option>
+                  <option value="general">General Enquiry</option>
+                  <option value="commission">Bespoke Commission</option>
+                  <option value="wholesale">Wholesale &amp; Retail</option>
+                  <option value="press">Press &amp; Media</option>
+                  <option value="visit">Atelier Visit</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="contact-message">Your Message <span aria-hidden="true">*</span></label>
+                <textarea id="contact-message" name="message" rows="6" placeholder="Tell us what you have in mind…" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Send Message</button>
+            </form>
+          </div>
+
+          <div class="contact-info">
+            <div class="contact-detail" data-reveal>
+              <span class="contact-detail-label">General Enquiries</span>
+              <p class="contact-detail-value">
+                <a href="mailto:hello@noirvessels.com" style="color:var(--text-primary);text-decoration:none;cursor:none;">hello@noirvessels.com</a><br>
+                +33 1 40 00 00 00
+              </p>
+            </div>
+            <div class="contact-detail" data-reveal>
+              <span class="contact-detail-label">Bespoke Commissions</span>
+              <p class="contact-detail-value">
+                <a href="mailto:commissions@noirvessels.com" style="color:var(--text-primary);text-decoration:none;cursor:none;">commissions@noirvessels.com</a>
+              </p>
+            </div>
+            <div class="contact-detail" data-reveal>
+              <span class="contact-detail-label">Press &amp; Media</span>
+              <p class="contact-detail-value">
+                <a href="mailto:press@noirvessels.com" style="color:var(--text-primary);text-decoration:none;cursor:none;">press@noirvessels.com</a>
+              </p>
+            </div>
+            <div class="contact-detail" data-reveal>
+              <span class="contact-detail-label">Paris Flagship</span>
+              <p class="contact-detail-value">
+                22 Rue du Faubourg Saint-Honoré<br>
+                75008 Paris, France<br>
+                <span style="color:var(--text-muted);font-size:0.85rem;">Mon–Sat, 10:00–19:00</span>
+              </p>
+            </div>
+            <div class="contact-detail" data-reveal>
+              <span class="contact-detail-label">Response Time</span>
+              <p class="contact-detail-value" style="color:var(--text-secondary);">
+                We endeavour to respond to all enquiries within 24 hours. Commission requests are responded to within 48 hours by our maison director personally.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Atelier Locations -->
+    <section class="section section-alt" aria-label="Our atelier locations">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow" data-reveal>Around the World</span>
+          <h2 data-split>Our Ateliers</h2>
+        </div>
+
+        <div class="atelier-locations" data-stagger-parent>
+          <div class="location-card" data-stagger-child>
+            <p class="location-city">Paris</p>
+            <p class="location-address">22 Rue du Faubourg Saint-Honoré<br>75008 Paris, France</p>
+            <p class="location-hours">MON–SAT · 10:00–19:00 CET</p>
+          </div>
+          <div class="location-card" data-stagger-child>
+            <p class="location-city">Murano</p>
+            <p class="location-address">Calle dei Vetrai 48<br>30141 Murano, Venice, Italy</p>
+            <p class="location-hours">MON–FRI · 09:00–17:00 CET</p>
+          </div>
+          <div class="location-card" data-stagger-child>
+            <p class="location-city">Bohemia</p>
+            <p class="location-address">Sklářská 17<br>46822 Železný Brod, Czech Republic</p>
+            <p class="location-hours">MON–FRI · 08:00–16:00 CET</p>
+          </div>
+          <div class="location-card" data-stagger-child>
+            <p class="location-city">Tokyo</p>
+            <p class="location-address">5-10-1 Minami-Aoyama<br>Minato-ku, Tokyo 107-0062, Japan</p>
+            <p class="location-hours">TUE–SUN · 11:00–19:00 JST</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" aria-label="Frequently asked questions">
+      <div class="container" style="max-width:800px;">
+        <div class="section-header">
+          <span class="eyebrow" data-reveal>Common Questions</span>
+          <h2 data-split>FAQ</h2>
+        </div>
+
+        <div class="faq-list" role="list">
+
+          <div class="faq-item" role="listitem">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+              <span>How long does a bespoke commission take?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M1 5h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+            </div>
+            <div class="faq-answer" role="region">
+              <p>Bespoke commissions typically take between 3 and 6 months from design approval to delivery. The precise timeline depends on the complexity of the piece and the series it draws from. During this time, we provide regular photographic updates from the atelier.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+              <span>Do you ship internationally?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M1 5h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+            </div>
+            <div class="faq-answer" role="region">
+              <p>Yes. Every Noir Vessels piece is shipped via dedicated white-glove courier service with full insurance and climate-controlled packaging. We ship to 38 countries. For destinations not listed, please contact us directly — we will make arrangements.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+              <span>What is included with each purchase?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M1 5h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+            </div>
+            <div class="faq-answer" role="region">
+              <p>Each piece is accompanied by a wax-sealed provenance document listing all artisans who worked on it, a cotton-lined ebony presentation box, a care guide printed on archival paper, and a personal note from the maison director. Limited editions also include a signed edition certificate.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+              <span>Can I visit the atelier before purchasing?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M1 5h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+            </div>
+            <div class="faq-answer" role="region">
+              <p>Private atelier visits are available by appointment. We welcome collectors, press, and serious prospective buyers to witness the craft firsthand in Paris or Murano. Use the contact form above to request a visit and we will arrange a private appointment.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+              <span>How do I care for my Noir Vessels piece?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M1 5h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+            </div>
+            <div class="faq-answer" role="region">
+              <p>Never place a Noir Vessels vessel in a dishwasher. Clean with a soft, damp cloth and a few drops of mild soap. For crystal pieces, a lint-free cloth ensures streak-free clarity. Keep out of direct sunlight for extended periods to protect colour treatments. Full care instructions are included with every piece.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" role="listitem">
+            <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+              <span>Is the glass safe for use with beverages?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M1 5h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+            </div>
+            <div class="faq-answer" role="region">
+              <p>Yes. All Noir Vessels glass is lead-free and food-safe. Our crystal is produced to EU Regulation 84/500/EEC standards. External decorations such as gold leaf and engravings do not come into contact with the interior. Each piece is individually tested before shipment.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">NOIR VESSELS</a>
+          <p class="footer-tagline">Where glass becomes poetry and craft becomes obsession.</p>
+          <div class="footer-social" aria-label="Social media links">
+            <a href="#" aria-label="Instagram" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></a>
+            <a href="#" aria-label="Twitter" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Collections</h5>
+          <ul>
+            <li><a href="collections.html">All Collections</a></li>
+            <li><a href="collections.html">Limited Editions</a></li>
+            <li><a href="product.html">View a Product</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Maison</h5>
+          <ul>
+            <li><a href="craftsmanship.html">Our Craft</a></li>
+            <li><a href="journal.html">Journal</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Support</h5>
+          <ul>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">Care Guide</a></li>
+            <li><a href="#">Authenticity</a></li>
+          </ul>
+        </div>
+        <div class="footer-newsletter">
+          <div>
+            <h4>The Inner Circle</h4>
+            <p>First access to limited editions and private events.</p>
+          </div>
+          <form class="newsletter-form" aria-label="Footer newsletter">
+            <label for="footer-email-contact" style="position:absolute;clip:rect(0,0,0,0);overflow:hidden;">Email</label>
+            <input type="email" id="footer-email-contact" placeholder="Your email address" required autocomplete="email" />
+            <button type="submit">Join</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-legal">&copy; 2026 Noir Vessels SAS · 22 Rue du Faubourg Saint-Honoré, 75008 Paris · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+        <p class="footer-legal">Registered in France · SIRET 882 461 734 00019 · TVA FR 42 882461734</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+
+    // Contact type selector
+    document.addEventListener('DOMContentLoaded', () => {
+      const typeBtns = document.querySelectorAll('.contact-type-card');
+      const subjectSelect = document.getElementById('contact-subject');
+
+      typeBtns.forEach(card => {
+        card.addEventListener('click', () => {
+          typeBtns.forEach(c => { c.classList.remove('active'); c.setAttribute('aria-pressed', 'false'); });
+          card.classList.add('active');
+          card.setAttribute('aria-pressed', 'true');
+          if (subjectSelect && card.dataset.type) {
+            subjectSelect.value = card.dataset.type;
+          }
+        });
+
+        card.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+        });
+      });
+
+      // FAQ accordion
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+          const isOpen = item.classList.contains('open');
+          faqItems.forEach(i => { i.classList.remove('open'); i.querySelector('.faq-question').setAttribute('aria-expanded', 'false'); });
+          if (!isOpen) {
+            item.classList.add('open');
+            question.setAttribute('aria-expanded', 'true');
+          }
+        });
+        question.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); question.click(); }
+        });
+      });
+    });
+  </script>
+  <script src="main.js"></script>
+</body>
+</html>
